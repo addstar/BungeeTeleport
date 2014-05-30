@@ -4,10 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
@@ -43,7 +39,7 @@ public class BungeeTeleportListener implements Listener {
 			// Important message debugging (can be toggled live)
 			if (plugin.isDebug()) {
 				String daction = "<empty>";
-				List<String> dparams = new ArrayList<String>();
+				String dparams = "";
 				
 				try {
 					ByteArrayInputStream ds = new ByteArrayInputStream(event.getData());
@@ -51,14 +47,16 @@ public class BungeeTeleportListener implements Listener {
 					// Read upto 20 parameters from the stream and load them into the string list
 					
 					for (int x = 0; x < 20; x++) {
-						dparams.add(di.readUTF());
+						if (dparams.isEmpty()) {
+							dparams = di.readUTF();
+						} else { 
+							dparams = dparams + ", " + di.readUTF();
+						}
 					}
-					String p = StringUtils.join(dparams, ", ");
-					plugin.DebugMsg("BungeeTeleport message [" + daction + "] " + p);
+					plugin.DebugMsg("Received message [" + daction + "] " + dparams);
 				}
 				catch(EOFException e) {
-					String p = StringUtils.join(dparams, ", ");
-					plugin.DebugMsg("BungeeTeleport message [" + daction + "] " + p);
+					plugin.DebugMsg("Received message [" + daction + "] " + dparams);
 				}
 				catch(IOException e) {
 					plugin.ErrorMsg("Error during debug output!");

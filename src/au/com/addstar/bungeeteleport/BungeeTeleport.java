@@ -21,20 +21,20 @@ public class BungeeTeleport extends Plugin {
 	}
 
 	public void LogMsg(String msg) {
-		getLogger().info("[BungeeTeleport] " + msg);
+		getLogger().info(msg);
 	}
 
 	public void WarnMsg(String msg) {
-		getLogger().warning("[BungeeTeleport] " + msg);
+		getLogger().warning(msg);
 	}
 
 	public void ErrorMsg(String msg) {
-		getLogger().severe("[BungeeTeleport] " + msg);
+		getLogger().severe(msg);
 	}
 
 	public void DebugMsg(String msg) {
 		if (isDebug()) {
-			getLogger().info("[BungeeTeleport] " + msg);
+			getLogger().info(msg);
 		}
 	}
 }
