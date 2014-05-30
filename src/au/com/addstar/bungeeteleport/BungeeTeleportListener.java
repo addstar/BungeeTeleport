@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -66,7 +67,19 @@ public class BungeeTeleportListener implements Listener {
 				}
 				else if (action.equals("SendPlayerToLocation")) {
 					// Parameters: SrcPlayer, Server, World, X, Y, Z, Y, P
-					plugin.LogMsg("Processing SendPlayerToLocation request...");
+					String s = input.readUTF();
+					ProxiedPlayer sp = plugin.getProxy().getPlayer(s);
+
+					String server = input.readUTF();
+					String world = input.readUTF();
+					Double x = input.readDouble();
+					Double y = input.readDouble();
+					Double z = input.readDouble();
+					Float yaw = input.readFloat();
+					Float pitch = input.readFloat();
+					
+					Location loc = new Location(server, world, x, y, z, yaw, pitch);
+					plugin.TeleportPlayerToLocation(sp, loc);
 				}
 				else {
 					plugin.WarnMsg("Unknown action received: " + action);
