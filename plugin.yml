@@ -1,0 +1,4 @@
+name: ${name}
+version: ${pom.version}
+author: add5tar
+main: au.com.addstar.bungeeteleport.BungeeTeleport
