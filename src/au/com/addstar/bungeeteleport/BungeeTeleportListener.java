@@ -72,11 +72,11 @@ public class BungeeTeleportListener implements Listener {
 
 					String server = input.readUTF();
 					String world = input.readUTF();
-					Double x = input.readDouble();
-					Double y = input.readDouble();
-					Double z = input.readDouble();
-					Float yaw = input.readFloat();
-					Float pitch = input.readFloat();
+					Double x = Double.valueOf(input.readUTF());
+					Double y = Double.valueOf(input.readUTF());
+					Double z = Double.valueOf(input.readUTF());
+					Float yaw = Float.valueOf(input.readUTF());
+					Float pitch = Float.valueOf(input.readUTF());
 					
 					Location loc = new Location(server, world, x, y, z, yaw, pitch);
 					plugin.TeleportPlayerToLocation(sp, loc);
