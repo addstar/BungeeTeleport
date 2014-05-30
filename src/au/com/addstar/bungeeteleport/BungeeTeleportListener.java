@@ -46,6 +46,7 @@ public class BungeeTeleportListener implements Listener {
 					DataInputStream di = new DataInputStream(ds);
 					// Read upto 20 parameters from the stream and load them into the string list
 					
+					daction = di.readUTF();
 					for (int x = 0; x < 20; x++) {
 						if (dparams.isEmpty()) {
 							dparams = di.readUTF();
