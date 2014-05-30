@@ -53,45 +53,52 @@ public class BungeeTeleportListener implements Listener {
 					for (int x = 0; x < 20; x++) {
 						dparams.add(di.readUTF());
 					}
+					String p = StringUtils.join(dparams, ", ");
+					plugin.DebugMsg("BungeeTeleport message [" + daction + "] " + p);
 				}
 				catch(EOFException e) {
 					String p = StringUtils.join(dparams, ", ");
-					System.out.println("BungeeTeleport message [" + daction + "] " + p);
+					plugin.DebugMsg("BungeeTeleport message [" + daction + "] " + p);
 				}
 				catch(IOException e) {
-					System.out.println("Error during debug output!");
+					plugin.ErrorMsg("Error during debug output!");
 					e.printStackTrace();
 				}
 			}
 
 			// Handle the request
+			String action = "<empty>";
 			try {
-				String action = input.readUTF();
+				action = input.readUTF();
 				if (action.equals("SendPlayerToPlayer")) {
 					// Parameters: SrcPlayer, DestPlayer
+					plugin.LogMsg("Processing SendPlayerToPlayer request...");
 					String s = input.readUTF();
 					String d = input.readUTF();
 					ProxiedPlayer sp = plugin.getProxy().getPlayer(s);
 					ProxiedPlayer dp = plugin.getProxy().getPlayer(d);
 					if (sp != null) {
 						if (dp != null) {
-							
+							plugin.LogMsg("Player " + dp.getName() + " is online, teleport would occur here.");
 						} else {
 							// Recipient player is not online
+							plugin.WarnMsg("Player " + d + " is not online.");
 						}
 					} else {
-						System.out.println("ERROR: " + action + " request from unknown player " + d + "!!");
+						plugin.ErrorMsg(action + " request from unknown player " + d + "!!");
 					}
 				}
 				else if (action.equals("SendPlayerToLocation")) {
-					// Parameters: SrcPlayer, Server, World, X, Y, Z, Y, P 
+					// Parameters: SrcPlayer, Server, World, X, Y, Z, Y, P
+					plugin.LogMsg("Processing SendPlayerToLocation request...");
 				}
 				else {
-					System.out.println("ERROR: Unknown action received: " + action);
+					plugin.WarnMsg("Unknown action received: " + action);
 				}
 			}
 			catch(IOException e) {
-				System.out.println("ERROR: Unexpected failure during message read!");
+				plugin.ErrorMsg("Unexpected failure during message read!");
+				plugin.ErrorMsg("Requested action was: " + action);
 				e.printStackTrace();
 			}
 		}
