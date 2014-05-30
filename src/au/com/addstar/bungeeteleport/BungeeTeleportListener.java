@@ -2,7 +2,6 @@ package au.com.addstar.bungeeteleport;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.EOFException;
 import java.io.IOException;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -38,31 +37,8 @@ public class BungeeTeleportListener implements Listener {
 
 			// Important message debugging (can be toggled live)
 			if (plugin.isDebug()) {
-				String daction = "<empty>";
-				String dparams = "";
-				
-				try {
-					ByteArrayInputStream ds = new ByteArrayInputStream(event.getData());
-					DataInputStream di = new DataInputStream(ds);
-					// Read upto 20 parameters from the stream and load them into the string list
-					
-					daction = di.readUTF();
-					for (int x = 0; x < 20; x++) {
-						if (dparams.isEmpty()) {
-							dparams = di.readUTF();
-						} else { 
-							dparams = dparams + ", " + di.readUTF();
-						}
-					}
-					plugin.DebugMsg("Received message [" + daction + "] " + dparams);
-				}
-				catch(EOFException e) {
-					plugin.DebugMsg("Received message [" + daction + "] " + dparams);
-				}
-				catch(IOException e) {
-					plugin.ErrorMsg("Error during debug output!");
-					e.printStackTrace();
-				}
+				String data = plugin.dumpPacket(event.getData());
+				plugin.DebugMsg("DEBUG received {BungeeTeleport}: " + data);
 			}
 
 			// Handle the request
@@ -78,7 +54,8 @@ public class BungeeTeleportListener implements Listener {
 					ProxiedPlayer dp = plugin.getProxy().getPlayer(d);
 					if (sp != null) {
 						if (dp != null) {
-							plugin.LogMsg("Player " + dp.getName() + " is online, teleport would occur here.");
+							// Recipient is online, commence teleport!
+							plugin.TeleportPlayerToPlayer(sp, dp);
 						} else {
 							// Recipient player is not online
 							plugin.WarnMsg("Player " + d + " is not online.");
