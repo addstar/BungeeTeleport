@@ -126,8 +126,8 @@ public class BungeeTeleport extends Plugin {
 		
 		// Send player to the right server (if necessary)
         if (!src.getServer().equals(loc.getServer())) {
-            src.connect(loc.getServer());
             DebugMsg("DEBUG connect " + src.getName() + " to server " + loc.getServer().getName());
+            src.connect(loc.getServer());
         }
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
