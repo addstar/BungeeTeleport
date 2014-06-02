@@ -1,4 +1,4 @@
-package au.com.addstar.bungeeteleport;
+package au.com.addstar.btp;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

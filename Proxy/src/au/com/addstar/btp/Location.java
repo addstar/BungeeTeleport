@@ -1,4 +1,4 @@
-package au.com.addstar.bungeeteleport;
+package au.com.addstar.btp;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
