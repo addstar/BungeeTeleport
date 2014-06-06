@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -32,14 +31,14 @@ public class BungeeTeleportListener implements Listener {
 	
 	@EventHandler
 	public void onPluginMessage(PluginMessageEvent event){
-		if (event.getTag().equals("BungeeTeleport") && event.getSender() instanceof Server) {
+		if (event.getTag().equals("BTProxy") && event.getSender() instanceof Server) {
 			ByteArrayInputStream stream = new ByteArrayInputStream(event.getData());
 			DataInputStream input = new DataInputStream(stream);
 
 			// Important message debugging (can be toggled live)
 			if (plugin.isDebug()) {
 				String data = plugin.dumpPacket(event.getData());
-				plugin.DebugMsg("DEBUG received {BungeeTeleport}: " + data);
+				plugin.DebugMsg("DEBUG received {BTProxy}: " + data);
 			}
 
 			// Handle the request
