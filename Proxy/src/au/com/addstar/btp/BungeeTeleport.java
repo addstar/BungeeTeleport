@@ -113,7 +113,7 @@ public class BungeeTeleport extends Plugin {
 		}
 
 		// Send player to the right server (if necessary)
-        if (SameServer(src.getServer(), dst.getServer())) {
+        if (!SameServer(src.getServer(), dst.getServer())) {
             src.connect(dst.getServer().getInfo());
             DebugMsg("DEBUG connect " + src.getName() + " to server " + dst.getServer().getInfo().getName());
         }
@@ -145,7 +145,7 @@ public class BungeeTeleport extends Plugin {
 		}
 		
 		// Send player to the right server (if necessary)
-        if (SameServer(src.getServer(), loc.getServer())) {
+        if (!SameServer(src.getServer(), loc.getServer())) {
             DebugMsg("DEBUG connect " + src.getName() + " to server " + loc.getServer().getName());
             src.connect(loc.getServer());
         }
