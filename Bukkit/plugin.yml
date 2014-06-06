@@ -1,11 +1,11 @@
-name: BungeeTeleport
+name: BungeeTeleportBukkit
 main: au.com.addstar.btb.BungeeTeleport
 version: ${project.version}
 author: add5tar
-description: Partner plugin for BungeeTeleport
+description: Partner plugin for BungeeTeleportProxy
 
 commands:
-  truehardcore:
+  bungeeteleportbukkit:
     aliases: btb
     description: BungeeTeleportBukkit command
     
