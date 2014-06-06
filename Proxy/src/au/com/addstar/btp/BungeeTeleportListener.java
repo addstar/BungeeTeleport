@@ -45,9 +45,9 @@ public class BungeeTeleportListener implements Listener {
 			String action = "<empty>";
 			try {
 				action = input.readUTF();
-				if (action.equals("SendPlayerToPlayer")) {
+				if (action.equals("TeleportToPlayer")) {
 					// Parameters: SrcPlayer, DestPlayer
-					plugin.LogMsg("Processing SendPlayerToPlayer request...");
+					plugin.LogMsg("Processing TeleportToPlayer request...");
 					String s = input.readUTF();
 					String d = input.readUTF();
 					ProxiedPlayer sp = plugin.getProxy().getPlayer(s);
@@ -64,7 +64,7 @@ public class BungeeTeleportListener implements Listener {
 						plugin.ErrorMsg(action + " request from unknown player " + d + "!!");
 					}
 				}
-				else if (action.equals("SendPlayerToLocation")) {
+				else if (action.equals("TeleportToLocation")) {
 					// Parameters: SrcPlayer, Server, World, X, Y, Z, Y, P
 					String s = input.readUTF();
 					ProxiedPlayer sp = plugin.getProxy().getPlayer(s);

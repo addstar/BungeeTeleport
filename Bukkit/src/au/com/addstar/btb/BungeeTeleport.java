@@ -84,11 +84,11 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 		try	{
 			if (channel.equals("BTBukkit")) {
 				String action = input.readUTF();
-				if (action.equals("SendPlayerToPlayer")) {
-					DebugMsg("Message received: [SendPlayerToPlayer] " + dumpPacket(bytes));
+				if (action.equals("TeleportToPlayer")) {
+					DebugMsg("Message received: [TeleportToPlayer] " + dumpPacket(bytes));
 				}
-				else if (action.equals("SendPlayerToLocation")) {
-					DebugMsg("Message received: [SendPlayerToLocation] " + dumpPacket(bytes));
+				else if (action.equals("TeleportToLocation")) {
+					DebugMsg("Message received: [TeleportToLocation] " + dumpPacket(bytes));
 				}
 				else {
 					DebugMsg("Unknown message: [" + action + "] " + dumpPacket(bytes));

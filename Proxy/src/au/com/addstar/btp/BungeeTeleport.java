@@ -10,6 +10,7 @@ import java.io.IOException;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class BungeeTeleport extends Plugin {
@@ -50,6 +51,25 @@ public class BungeeTeleport extends Plugin {
 		if (isDebug()) {
 			getLogger().info(msg);
 		}
+	}
+	
+	public boolean SameServer(ServerInfo s1, ServerInfo s2) {
+		String name1 = s1.getName();
+		String name2 = s2.getName();
+		if (name1.equals(name2)) return true;
+		return false;
+	}
+	
+	public boolean SameServer(Server s1, Server s2) {
+		return SameServer(s1.getInfo(), s2.getInfo());
+	}
+
+	public boolean SameServer(Server s1, ServerInfo s2) {
+		return SameServer(s1.getInfo(), s2);
+	}
+
+	public boolean SameServer(ServerInfo s1, Server s2) {
+		return SameServer(s1, s2.getInfo());
 	}
 
 	public String dumpPacket(byte[] bytes) {
@@ -93,7 +113,7 @@ public class BungeeTeleport extends Plugin {
 		}
 
 		// Send player to the right server (if necessary)
-        if (!src.getServer().equals(dst.getServer())) {
+        if (SameServer(src.getServer(), dst.getServer())) {
             src.connect(dst.getServer().getInfo());
             DebugMsg("DEBUG connect " + src.getName() + " to server " + dst.getServer().getInfo().getName());
         }
@@ -125,7 +145,7 @@ public class BungeeTeleport extends Plugin {
 		}
 		
 		// Send player to the right server (if necessary)
-        if (!src.getServer().equals(loc.getServer())) {
+        if (SameServer(src.getServer(), loc.getServer())) {
             DebugMsg("DEBUG connect " + src.getName() + " to server " + loc.getServer().getName());
             src.connect(loc.getServer());
         }
