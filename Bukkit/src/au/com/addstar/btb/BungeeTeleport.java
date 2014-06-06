@@ -23,8 +23,8 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 		getCommand("bungeeteleportbukkit").setExecutor(new BungeeTeleportCommand(this));
 		getCommand("btb").setAliases(Arrays.asList("btp"));
 
-		Bukkit.getMessenger().registerIncomingPluginChannel(this, "BungeeTeleport", this);
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeTeleport");
+		Bukkit.getMessenger().registerIncomingPluginChannel(this, "BTBukkit", this);
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BTProxy");
 	}
 
 	public boolean isDebug() {
@@ -82,7 +82,7 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 		ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
 		DataInputStream input = new DataInputStream(stream);
 		try	{
-			if (channel.equals("BungeeTeleport")) {
+			if (channel.equals("BTBukkit")) {
 				String action = input.readUTF();
 				if (action.equals("SendPlayerToPlayer")) {
 					DebugMsg("Message received: [SendPlayerToPlayer] " + dumpPacket(bytes));

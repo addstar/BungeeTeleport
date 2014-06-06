@@ -22,7 +22,7 @@ public class BungeeTeleport extends Plugin {
 		proxy = ProxyServer.getInstance();
 		plugin = this;
 		getProxy().getPluginManager().registerListener(this, new BungeeTeleportListener(this));
-		getProxy().registerChannel("BungeeTeleport");
+		getProxy().registerChannel("BTProxy");
 		getProxy().getPluginManager().registerCommand(this, new BungeeTeleportCommand(this));
 	}
 
@@ -105,10 +105,10 @@ public class BungeeTeleport extends Plugin {
             out.writeUTF("TeleportToLocation");
             out.writeUTF(src.getName());
             out.writeUTF(dst.getName());
-            getProxy().getScheduler().runAsync(this, new SendPluginMessage("CHTeleport", dst.getServer().getInfo(), bytes));
+            getProxy().getScheduler().runAsync(this, new SendPluginMessage("BTBukkit", dst.getServer().getInfo(), bytes));
             if (isDebug()) {
             	String data = dumpPacket(bytes.toByteArray());
-            	DebugMsg("DEBUG sent {CHTeleport}: " + data);
+            	DebugMsg("DEBUG sent {BTBukkit}: " + data);
             }
         }
         catch (IOException e) {
@@ -143,10 +143,10 @@ public class BungeeTeleport extends Plugin {
             out.writeUTF(Float.toString(loc.getYaw()));
             out.writeUTF(Float.toString(loc.getPitch()));
 
-            getProxy().getScheduler().runAsync(this, new SendPluginMessage("CHTeleport", loc.getServer(), bytes));
+            getProxy().getScheduler().runAsync(this, new SendPluginMessage("BTBukkit", loc.getServer(), bytes));
             if (isDebug()) {
             	String data = dumpPacket(bytes.toByteArray());
-            	DebugMsg("DEBUG sent {CHTeleport}: " + data);
+            	DebugMsg("DEBUG sent {BTBukkit}: " + data);
             }
         }
         catch (IOException e) {
