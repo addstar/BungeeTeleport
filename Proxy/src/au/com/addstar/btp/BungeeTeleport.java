@@ -122,7 +122,7 @@ public class BungeeTeleport extends Plugin {
         DataOutputStream out = new DataOutputStream(bytes);
 
         try {
-            out.writeUTF("TeleportToLocation");
+            out.writeUTF("TeleportToPlayer");
             out.writeUTF(src.getName());
             out.writeUTF(dst.getName());
             getProxy().getScheduler().runAsync(this, new SendPluginMessage("BTBukkit", dst.getServer().getInfo(), bytes));

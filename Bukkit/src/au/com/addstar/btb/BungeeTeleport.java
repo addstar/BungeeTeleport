@@ -135,9 +135,11 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 					}
 					if (player.isOnline()) {
 						Location loc = dp.getLocation();
-						DebugMsg("Teleporting \"" + player.getName() + "\" to " + loc);
-						if (!player.teleport(loc)) {
-							plugin.WarnMsg("Unable to teleport \"" + player.getName() + "\" to location!");
+						if (loc != null) {
+							DebugMsg("Teleporting \"" + player.getName() + "\" to " + loc);
+							if (!player.teleport(loc)) {
+								plugin.WarnMsg("Unable to teleport \"" + player.getName() + "\" to location!");
+							}
 						}
 					} else {
 						DebugMsg("Player not online - Storing teleport");
@@ -156,9 +158,11 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 					
 					if (sp.isOnline()) {
 						Location loc = getLocationFromInput(input);
-						DebugMsg("Teleporting \"" + sp.getName() + "\" to " + loc);
-						if (!sp.teleport(loc)) {
-							plugin.WarnMsg("Unable to teleport \"" + sp.getName() + "\" to location!");
+						if (loc != null) {
+							DebugMsg("Teleporting \"" + sp.getName() + "\" to " + loc);
+							if (!sp.teleport(loc)) {
+								plugin.WarnMsg("Unable to teleport \"" + sp.getName() + "\" to location!");
+							}
 						}
 					} else {
 						DebugMsg("Player not online - Storing teleport");
