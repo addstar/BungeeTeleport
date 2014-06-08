@@ -154,7 +154,7 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 					Player sp = getServer().getPlayerExact(spname);
 					if ((sp != null) && (sp.isOnline())) {
 						DebugMsg("Teleporting \"" + spname + "\" to " + loc);
-						if (!player.teleport(loc)) {
+						if (!sp.teleport(loc)) {
 							WarnMsg("Unable to teleport \"" + spname + "\" to location!");
 						}
 					} else {
