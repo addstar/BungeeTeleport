@@ -142,7 +142,7 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 					String dpname = input.readUTF();
 					Player dp = getServer().getPlayerExact(dpname);
 					if (dp == null) { 
-						plugin.WarnMsg("Player \"" + dpname + "\" is not online!");
+						plugin.WarnMsg("Destination player \"" + dpname + "\" is not online!");
 						return;
 					}
 					
@@ -169,18 +169,14 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 
 					// Get the destination player location
 					String spname = input.readUTF();
-					Player sp = getServer().getPlayerExact(spname);
-					if (sp == null) { 
-						plugin.WarnMsg("Player \"" + spname + "\" is not online!");
-						return;
-					}
 					
 					Location loc = getLocationFromInput(input);
 					if (loc == null) {
-						WarnMsg("Destination Location for \"" + sp.getName() + "\" is null!");
+						WarnMsg("Constructed Location for TeleportToLocation of \"" + spname + "\" is null!");
 					}
 					
-					if (sp.isOnline()) {
+					Player sp = getServer().getPlayerExact(spname);
+					if ((sp != null) && (sp.isOnline())) {
 						DebugMsg("Teleporting \"" + sp.getName() + "\" to " + loc);
 						if (!sp.teleport(loc)) {
 							plugin.WarnMsg("Unable to teleport \"" + sp.getName() + "\" to location!");
