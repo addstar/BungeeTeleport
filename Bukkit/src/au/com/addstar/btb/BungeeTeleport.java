@@ -5,6 +5,8 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,6 +19,12 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 public class BungeeTeleport extends JavaPlugin implements PluginMessageListener, Listener {
 	public static BungeeTeleport plugin;
 	private boolean Debug = false;
+	public HashMap<String, TPRec> TPQueue = new HashMap<String, TPRec>(); 
+	
+	public static class TPRec {
+		Location location;
+		long timestamp = new Date().getTime();
+	}
 	
 	@Override
 	public void onEnable() {
@@ -27,6 +35,7 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 
 		Bukkit.getMessenger().registerIncomingPluginChannel(this, "BTBukkit", this);
 		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BTProxy");
+		getServer().getPluginManager().registerEvents(new BungeeTeleportListener(this), this);
 	}
 
 	public boolean isDebug() {
@@ -125,7 +134,10 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 				
 				if (action.equals("TeleportToPlayer")) {
 					DebugMsg("Message received: [TeleportToPlayer] " + dumpPacket(bytes));
-					
+
+					// Get the source player name
+					String spname = input.readUTF();
+
 					// Get the destination player location
 					String dpname = input.readUTF();
 					Player dp = getServer().getPlayerExact(dpname);
@@ -133,16 +145,23 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 						plugin.WarnMsg("Player \"" + dpname + "\" is not online!");
 						return;
 					}
-					if (player.isOnline()) {
-						Location loc = dp.getLocation();
-						if (loc != null) {
-							DebugMsg("Teleporting \"" + player.getName() + "\" to " + loc);
-							if (!player.teleport(loc)) {
-								plugin.WarnMsg("Unable to teleport \"" + player.getName() + "\" to location!");
-							}
+					
+					Location loc = dp.getLocation();
+					if (loc == null) {
+						WarnMsg("Destination Location of \"" + dp.getName() + "\" is null!");
+					}
+					
+					Player sp = getServer().getPlayerExact(spname);
+					if ((sp != null) && (sp.isOnline())) {
+						DebugMsg("Teleporting \"" + spname + "\" to " + loc);
+						if (!player.teleport(loc)) {
+							WarnMsg("Unable to teleport \"" + spname + "\" to location!");
 						}
 					} else {
-						DebugMsg("Player not online - Storing teleport");
+						DebugMsg("Player \"" + spname + "\" not online - Storing teleport for next login");
+						TPRec rec = new TPRec();
+						rec.location = loc;
+						TPQueue.put(spname, rec);
 					}
 				}
 				else if (action.equals("TeleportToLocation")) {
@@ -156,16 +175,21 @@ public class BungeeTeleport extends JavaPlugin implements PluginMessageListener,
 						return;
 					}
 					
+					Location loc = getLocationFromInput(input);
+					if (loc == null) {
+						WarnMsg("Destination Location for \"" + sp.getName() + "\" is null!");
+					}
+					
 					if (sp.isOnline()) {
-						Location loc = getLocationFromInput(input);
-						if (loc != null) {
-							DebugMsg("Teleporting \"" + sp.getName() + "\" to " + loc);
-							if (!sp.teleport(loc)) {
-								plugin.WarnMsg("Unable to teleport \"" + sp.getName() + "\" to location!");
-							}
+						DebugMsg("Teleporting \"" + sp.getName() + "\" to " + loc);
+						if (!sp.teleport(loc)) {
+							plugin.WarnMsg("Unable to teleport \"" + sp.getName() + "\" to location!");
 						}
 					} else {
 						DebugMsg("Player not online - Storing teleport");
+						TPRec rec = new TPRec();
+						rec.location = loc;
+						TPQueue.put(spname, rec);
 					}
 				}
 				else {
