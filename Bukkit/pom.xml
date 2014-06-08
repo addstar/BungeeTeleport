@@ -17,11 +17,10 @@
     </repository>
 
     <repository>
-      <id>bukkit-maven</id>
-      <url>http://repo.bukkit.org/content/repositories/releases/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
+      <id>md5-repo</id>
+      <url>http://repo.md-5.net/content/groups/public/</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
     </repository>
     
     <!-- Other repositories -->
@@ -38,19 +37,11 @@
   </repositories>
 
   <dependencies>
-    <!-- Bukkit -->
     <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.7.9-R0.2-SNAPSHOT</version>
+    	<groupId>org.spigotmc</groupId>
+    	<artifactId>spigot</artifactId>
+    	<version>1.7.9-R0.3-SNAPSHOT</version>
     </dependency>
-    
-    <!-- CraftBukkit Dependency for experimental features
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>craftbukkit</artifactId>
-      <version>1.7.9-R0.1-SNAPSHOT</version>
-    </dependency>-->        
   </dependencies>
 
   <build>
