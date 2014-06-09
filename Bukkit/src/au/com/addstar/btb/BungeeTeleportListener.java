@@ -18,7 +18,7 @@ public class BungeeTeleportListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerSpawn(PlayerSpawnLocationEvent event) {
 		Player player = event.getPlayer();
-		TPRec rec = plugin.TPQueue.get(player.getName());
+		TPRec rec = plugin.TPQueue.remove(player.getName());
 		if (rec == null) {
 			return; // Player has no teleport record, let them be!
 		}
